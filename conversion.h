@@ -4,3 +4,9 @@
 
 bool characteristic(const char numString[], int& c);
 bool mantissa(const char numString[], int& numerator, int& denominator);
+
+
+char[] getMantissaString(char numString[]);
+int convertCharToInt(char number);
+int getNumerator(char mantissaString[]);
+int getDenominator(int numerator);
