@@ -10,6 +10,14 @@ bool characteristic(const char numString[], int& c)
         return false;
     }
 
+    if(CheckDecimalPoint(numString) == false){
+        return false;
+    }
+
+    if(CheckSigns(numString) == false){
+        return false;
+    }
+
     if (numString[0] == '-') {
         negativeNum = true;
     }
@@ -20,7 +28,7 @@ bool characteristic(const char numString[], int& c)
         solution = (solution * 10) + currentInt;
     }
 
-    while (numString[counter] != '.') {
+    while (numString[counter] != '.' && numString[counter] != '\0') {
         currentInt = ConvertToInt(numString[counter]);
         solution = (solution * 10) + currentInt;
         counter++;
@@ -31,6 +39,37 @@ bool characteristic(const char numString[], int& c)
         c = c * -1;
     }
     return true;
+}
+
+bool CheckSigns(const char numString[]) {
+    bool retVal = true;
+    int counter = 0;
+    int numSigns = 0;
+    while (numString[counter] != '\0') {
+        if (counter >= 1 && (numString[counter] == 43 || numString[counter] == 45)) {
+            retVal = false;
+            break;
+        }
+        counter++;
+    }
+    return retVal;
+}
+
+
+bool CheckDecimalPoint(const char numString[]){
+    bool retVal = true;
+    int counter = 0;
+    int numDecimals = 0;
+    while(numString[counter] != '\0'){
+            if(numString[counter] == 46){
+                numDecimals++;
+            }
+            counter++;
+    }
+    if(numDecimals > 1){
+        retVal = false;
+    }
+    return retVal;
 }
 
 int ConvertToInt(char currentCharacter) {
@@ -125,6 +164,10 @@ bool CheckValidChar(const char numString[]){
             continue;
         }
         else if (currentCharacter == '-') {
+            counter++;
+            continue;
+        }
+        else if(currentCharacter == ' '){
             counter++;
             continue;
         }
