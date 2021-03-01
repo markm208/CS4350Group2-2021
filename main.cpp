@@ -45,11 +45,28 @@ int main()
         //"15241.383936"
         cout<<"Result: "<<result<<endl;
     }
-    if(divide(characteristicValue, numerator, denominator, characteristicValue, numerator, denominator, result, lengthOfResult))
+   /* if(divide(characteristicValue, numerator, denominator, characteristicValue, numerator, denominator, result, lengthOfResult))
     {
         //"1"
         cout<<"Result: "<<result<<endl;
     }
+    */
+
+    divide(-500,5,10,7,3,10,result,10);
+    
+    cout << "Result: " << result << endl;
+
+    cout << "test: " << result[5] << endl;
+    
+    int i =0;
+    while(i < 11){
+        cout << result[i];
+        i++;
+    }
+    cout << endl;
+    cout << result << endl;
+    
+   
 
     return 0;
 }
