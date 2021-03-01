@@ -1,8 +1,7 @@
 #include "math.h"
 
 //HELPER FUNCTIONS
-//Counts the number of digits in a given int
-//Zero is counted as 1 digit
+//Counts the number of digits in a given int, also Zero should be counted as 1
 
 
 int count_Digits(int numberToCount)
@@ -25,7 +24,7 @@ int count_Digits(int numberToCount)
 }
 
 
-//Converts a mantissa (given as a fraction) into a int array with
+//Converts a mantissa (which should be given as a fraction) into a int array with
 //only one digit per index
 bool mantissaToArray(int numerator, int denominator, int maxLength, int mantissaArray[])
 {
@@ -79,29 +78,34 @@ void intToDigitArray(int number, int digitArray[])
 
 }
 
-//takes in two sets of mantissa and characteristic, a char array to store
-//result in and the length of the array.
+/*The add function takes two sets of the mantissa and characteristics, a char to store the result in and the length of the array 
+c = characteristic
+n & d = numerator and denominator of characteristic
+Ex: 0.352 -> c = 0, n = 351 & d = 1000
 
-//c = characteristic
-//n & d = numerator and denominator of characteristic
-//Ex: 0.352 -> c = 0, n = 351 & d = 1000
+Note: result data will be lost if array is passed in anonymously 
+*/
 
-//Note: result data will be lost if array is passed in anonymously
 bool add(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int len)
 {
-
+	//Initialize and set up variables that are being used
   int index = 0;
-  bool Verbose = false;
+  bool carries = false;
   int charResult = c1 + c2;
   int charLen = count_Digits(charResult);
-  int characteristic[charLen];
+  int* characteristic = new int[charLen]; //Puts array on the heap.... had a previous error where the expression of a constant value so did this to fix it
   intToDigitArray(charResult, characteristic);
   int mantissaResult;
   int mantissaSpace = len - count_Digits(charResult) + 1;
-  int mantissa1[mantissaSpace];
-  int mantissa2[mantissaSpace];
-  mantissaResult = mantissaToArray(n1, d1, mantissaSpace, mantissa1) ||
+  int* mantissa1 = new int[mantissaSpace];
+  int* mantissa2 = new int[mantissaSpace];
+  
+  	
+	mantissaResult = mantissaToArray(n1, d1, mantissaSpace, mantissa1) ||
                    mantissaToArray(n2, d2, mantissaSpace, mantissa2);
+
+	
+  
 
 
   //base case, not enough to store characteristic
@@ -135,24 +139,30 @@ bool add(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int len)
         mantissaResult += mantissa2[index];
       }
 
-      if(Verbose)
+      if(carries)
       {
         mantissaResult++;
-        Verbose = false;
+        carries = false;
       }
 
       if(mantissaResult > 9)
       {
         mantissaResult %= 10;
-        Verbose = true;
+        carries = true;
       }
 
       result[index] = (char) mantissaResult;
 
       index++;
     }
-
+	
   }
+  // The deletion of the characteristic and mantissais to clean up the memory used from the heap, I'm not to sure if I did this 
+  // part correctly or not so any advice to fix this portion let me know
+
+	 delete characteristic; // cleans up memory afterward
+	 delete mantissa1;
+	 delete mantissa2;
 
   result[index] = '\0';
 
@@ -162,7 +172,79 @@ bool add(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int len)
 //--
 bool subtract(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int len)
 {
-	return true;
+    //base case, not enough to store characteristic
+    if(len <= 1)
+    {
+        return false;
+    }
+    
+    // Initialize and Setup Variables
+    int sizeNeeded = ((n1 + n2) / 10) + 1;
+    int resultArrIndex = 0;
+    int tempArrIndex = 0;
+    int numLSD1;
+    int numLSD2;
+    int numResult;
+    int* tempResult = new int[sizeNeeded];
+    int charResult = c1 - c2;
+    bool borrow = false;
+	bool carries = false; // For some reason I coulnd't take carries from up top most likely because I didn't make it global
+
+    result[resultArrIndex] = (char) charResult;
+    resultArrIndex++;
+    result[resultArrIndex] = '.';
+    
+    //loop while denominators are not zero, takes off the end of each
+    //numerator, then subtracts them
+    // divide denominators by 10
+    
+    while((d1 > 0 || d2 > 0) && tempArrIndex < len - 1)
+    {
+
+        numLSD1 = n1 % 10;
+        numLSD2 = n2 % 10;
+
+        numResult = numLSD1 - numLSD2;
+
+        if(borrow)
+        {
+            numResult--;
+            carries = false;
+        }
+
+        if(numResult > 9)
+        {
+            numResult %= 10;
+            carries = true;
+        }
+
+        tempResult[tempArrIndex] = numResult;
+
+        tempArrIndex++;
+        d1 /= 10;
+        d2 /= 10;
+
+        n1 /= 10;
+        n2 /= 10;
+
+    }
+
+	delete tempResult;
+    
+    // Pass result into resulting array
+    while(resultArrIndex < len - 1)
+    {
+
+        result[resultArrIndex] = (char) tempResult[tempArrIndex];
+        resultArrIndex++;
+        tempArrIndex--;
+
+    }
+
+    // Add end char to end of array
+    result[resultArrIndex] = '\0';
+
+    return true;
 }
 //--
 bool multiply(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int len)
