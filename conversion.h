@@ -4,7 +4,7 @@
 
 bool characteristic(const char numString[], int& c);
 bool mantissa(const char numString[], int& numerator, int& denominator);
-bool CheckValidChar(const char numString[]);
-bool CheckDecimalPoint(const char numString[]);
-bool CheckSigns(const char numString[]);
-int ConvertToInt(char currentCharacter);
+bool checkValidChar(const char numString[]);
+bool checkDecimalPoint(const char numString[]);
+bool checkSigns(const char numString[]);
+int convertToInt(char currentCharacter);

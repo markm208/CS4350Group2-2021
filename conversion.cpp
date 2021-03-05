@@ -1,4 +1,7 @@
+#include <iostream>
 #include "conversion.h"
+
+using namespace std;
 
 bool characteristic(const char numString[], int& c)
 {
@@ -7,30 +10,30 @@ bool characteristic(const char numString[], int& c)
     int currentInt;
     bool negativeNum = false;
     // This calls upon CheckValidChar to make sure the c-string only has numbers 0-9, '.', '+', '-', or ' '.
-    if(CheckValidChar(numString) == false){
+    if(checkValidChar(numString) == false){
         return false;
     }
     // This calls upon CheckDecimalPoint to make sure the c-string only has one decimal point.
-    if(CheckDecimalPoint(numString) == false){
+    if(checkDecimalPoint(numString) == false){
         return false;
     }
     // This calls upon CheckSigns to make sure there is only one '+' or '-' and that it is at the start of the c-string.
-    if(CheckSigns(numString) == false){
+    if(checkSigns(numString) == false){
         return false;
     }
     // Checks if the number is negative
     if (numString[0] == '-') {
         negativeNum = true;
     }
-    else if(numString[0] == '+'){
+    else if(numString[0] == '+'){ // This if statement is empty because we don't need to do anything if there is a plus sign but we need to skip over it if there is one present.
     }
     else {
-        currentInt = ConvertToInt(numString[0]);
+        currentInt = convertToInt(numString[0]);
         solution = (solution * 10) + currentInt;
     }
     // Moves through the c-string until it reaches a '.' or the null terminator.
     while (numString[counter] != '.' && numString[counter] != '\0') {
-        currentInt = ConvertToInt(numString[counter]);  // Converts the current character in the c-string to an integer.
+        currentInt = convertToInt(numString[counter]);  // Converts the current character in the c-string to an integer.
         solution = (solution * 10) + currentInt;        // Formula used to get the correct final integer.
         counter++;
     }
@@ -42,14 +45,14 @@ bool characteristic(const char numString[], int& c)
     return true;
 }
 
-bool CheckSigns(const char numString[]) {
+bool checkSigns(const char numString[]) {
     bool retVal = true;
     int counter = 0;
     int numSigns = 0;
     // Moves through the c-string until it reaches a null terminator.
     while (numString[counter] != '\0') {
         // This if statement makes sure there is no '+' or '-' signs in the middle of the c-string.
-        if (counter >= 1 && (numString[counter] == 43 || numString[counter] == 45)) {
+        if (counter >= 1 && (numString[counter] == '+' || numString[counter] == '-')) {
             retVal = false;
             break;
         }
@@ -59,7 +62,7 @@ bool CheckSigns(const char numString[]) {
 }
 
 
-bool CheckDecimalPoint(const char numString[]){
+bool checkDecimalPoint(const char numString[]){
     bool retVal = true;
     int counter = 0;
     int numDecimals = 0;
@@ -77,45 +80,48 @@ bool CheckDecimalPoint(const char numString[]){
     return retVal;
 }
 
-int ConvertToInt(char currentCharacter) {
+int convertToInt(char currentCharacter) {
     int retVal;
     int currentVal = currentCharacter;
     // These if statements converts the current character in the c-string to its corresponding integer value.
-    if (currentVal == 48) {
+    if (currentVal == '0') {
         retVal = 0;
     }
-    else if (currentVal == 49) {
+    else if (currentVal == '1') {
         retVal = 1;
     }
-    else if (currentVal == 50) {
+    else if (currentVal == '2') {
         retVal = 2;
     }
-    else if (currentVal == 51) {
+    else if (currentVal == '3') {
         retVal = 3;
     }
-    else if (currentVal == 52) {
+    else if (currentVal == '4') {
         retVal = 4;
     }
-    else if (currentVal == 53) {
+    else if (currentVal == '5') {
         retVal = 5;
     }
-    else if (currentVal == 54) {
+    else if (currentVal == '6') {
         retVal = 6;
     }
-    else if (currentVal == 55) {
+    else if (currentVal == '7') {
         retVal = 7;
     }
-    else if (currentVal == 56) {
+    else if (currentVal == '8') {
         retVal = 8;
     }
-    else if (currentVal == 57) {
+    else if (currentVal == '9') {
         retVal = 9;
+    }
+    else{
+        cout << "Error when converting to an int.";
     }
     return retVal;
 }
 
 
-bool CheckValidChar(const char numString[]){
+bool checkValidChar(const char numString[]){
     bool retVal = true;
     int counter = 0;
     char currentCharacter;
@@ -125,59 +131,45 @@ bool CheckValidChar(const char numString[]){
         // These if statements makes sure that the current character is valid 
          if (currentCharacter == '0') {
             counter++;
-            continue;
         }
         else if (currentCharacter == '1') {
             counter++;
-            continue;
         }
         else if (currentCharacter == '2') {
             counter++;
-            continue;
         }
         else if (currentCharacter == '3') {
             counter++;
-            continue;
         }
         else if (currentCharacter == '4') {
             counter++;
-            continue;
         }
         else if (currentCharacter == '5') {
             counter++;
-            continue;
         }
         else if (currentCharacter == '6') {
             counter++;
-            continue;
         }
         else if (currentCharacter == '7') {
             counter++;
-            continue;
         }
         else if (currentCharacter == '8') {
             counter++;
-            continue;
         }
         else if (currentCharacter == '9') {
             counter++;
-            continue;
         }
         else if (currentCharacter == '.') {
             counter++;
-            continue;
         }
         else if (currentCharacter == '+') {
             counter++;
-            continue;
         }
         else if (currentCharacter == '-') {
             counter++;
-            continue;
         }
         else if(currentCharacter == ' '){
             counter++;
-            continue;
         }
         else {
             retVal = false;
