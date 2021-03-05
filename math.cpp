@@ -13,7 +13,10 @@ bool subtract(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int
 bool multiply(int characteristic1, int numerator1, int denominator1, int characteristic2, int numerator2, int denominator2, char result[], int len)
 {
     //Checks inputs to make sure they are valid. Function returns false if inputs are not valid
-    if(numerator1 < denominator1 && numerator2 < denominator2 && denominator1 != 0 && denominator2 != 0){
+    if(denominator1 != 0 && denominator2 != 0 && isOverflow(characteristic1, characteristic2) == false){
+        //Checks to see is each characteristic is negative
+        bool isNegative1 = isNegative(characteristic1);
+        bool isNegative2 = isNegative(characteristic2);
         
         //Converts both inputted mixed numbers to improper fractions
         int improperNumerator1 = (characteristic1 * denominator1) + numerator1;
@@ -58,9 +61,14 @@ bool multiply(int characteristic1, int numerator1, int denominator1, int charact
         //Adds each digit of the characteristic to the corresponding char array in reverse order due to modular divison
         int digit = wholeNumber;
         int counter1 = 0;
+        
+        if(wholeNumber == 0){
+            characteristic[counter1] = wholeNumber + '0';
+            counter1++;
+        }
         while(digit != 0 && counter1 != len){
             int newDigit = digit % 10;
-            characteristic[counter1] = newDigit + 48;
+            characteristic[counter1] = newDigit + '0';
             digit = digit / 10;
             counter1++;
         }
@@ -73,12 +81,12 @@ bool multiply(int characteristic1, int numerator1, int denominator1, int charact
             newNumerator = newNumerator * 10;
             if(newNumerator >= productDenominator){
                 int newDigit = newNumerator / productDenominator;
-                mantissa[counter2] = newDigit + 48;
+                mantissa[counter2] = newDigit + '0';
                 newNumerator = newNumerator % productDenominator;
                 counter2++;
             }
             else{
-                mantissa[counter2] = 48;
+                mantissa[counter2] = '0';
                 counter2++;
             }
         }
@@ -88,20 +96,30 @@ bool multiply(int characteristic1, int numerator1, int denominator1, int charact
         int lengthOfCharacteristic = lengthSoFar(characteristic, len);
         int lengthOfMantissa = lengthSoFar(mantissa, len);
         
-        //Copies characteristic array into result array by reversing the order of digits
+        //Checks to see if a negative sign needs to be added. Increases resultPosition.
         int resultPosition = 0;
+        
+        if(isNegative1 == true || isNegative2 == true){
+            result[0] = '-';
+            resultPosition++;
+        }
+        
+        //Copies characteristic array into result array by reversing the order of digits
         for(int i = lengthOfCharacteristic - 1; i >= 0; i--){
             result[resultPosition] = characteristic[i];
             resultPosition++;
         }
         
-        //Adds a decimal point to the result array to seperate the characteristic from the mantissa if the length of mantissa is greater than zero
+        //Adds a decimal point to the result array to seperate the characteristic from the mantissa if the length of mantissa is greater than zero. Updates lengthOfCharacteristicr to account for the decimal point
         if(lengthOfMantissa > 0){
-            result[lengthOfCharacteristic] = '.';
+            result[resultPosition] = '.';
+            lengthOfCharacteristic++;
         }
         
-        //Updates lengthOfCharacteristicr to account for the decimal point
-        lengthOfCharacteristic++;
+        //Increses lengthOfCharacteristic if negative sign is present.
+        if(result[0] == '-'){
+            lengthOfCharacteristic++;
+        }
         
         //Checks to make sure the characteristic and mantissa will fit within the result array and adjusts the lengthOfMantissa if it will not fit
         if(lengthOfCharacteristic + lengthOfMantissa >= len){
@@ -157,6 +175,14 @@ bool isOverflow(int value1, int value2){
     }
 }
 
+bool isNegative(int& characteristic){
+    //Checks to see is the characteristic is negative
+    if(characteristic < 0){
+        characteristic = characteristic * -1;
+        return true;
+    }
+    return false;
+}
 //--
 bool divide(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int len)
 {
