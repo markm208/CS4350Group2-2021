@@ -10,6 +10,6 @@ char[] getNumeratorString(char numString[]);
 int getNumerator(char mantissaString[]);
 int convertCharToInt(char number);
 int getDenominator(int numerator);
-int arraySizeChar(char number[]);
-int arraySizeInt(int arr[]);
+int charArraySize(char number[]);
+int intArraySize(int arr[]);
 int[] reverse(int number[]);

@@ -30,10 +30,10 @@ bool validNumber(char place)
 
 char[] getNumeratorString(char numString[]);
 {
-    char numeratorString[arraySizeChar(numString[])];
+    char numeratorString[];
     bool passedDecimal = false;
     int nsIndex = 0;
-    for (int i = 0; i < arraySizeChar(numeratorString[]); i++)
+    for (int i = 0; i < charArraySize(numString[]); i++)
     {
         if (passedDecimal == true && validNumber(numstr[i]))
         {
@@ -52,10 +52,10 @@ int getNumerator(char mantissaString[])
 {
     int gotNumerator = 0;
     char numeratorString[] = getNumeratorString(mantissaString);
-    int numeratorInt[arraySizeChar(numeratorString)];
+    int numeratorInt[charArraySize(numeratorString)];
 
     //converts each of the characters to integers using the convertCharToInt() function below
-    for (int i = 0; i < arraySizeChar(numeratorString); i++)
+    for (int i = 0; i < charArraySize(numeratorString); i++)
     {
         numeratorInt[i] = convertCharToInt(numeratorString[i]);
     }
@@ -67,7 +67,7 @@ int getNumerator(char mantissaString[])
 
         then adds them together (6 + 50 + 400 = 456)
     */
-    for (int i = 0; i < arraySizeInt(reversedNumeratorInt); i++)
+    for (int i = 0; i < intArraySize(reversedNumeratorInt); i++)
     {
         gotNumerator += i * place;
         place *= 10;
@@ -97,7 +97,7 @@ int getDenominator(int numerator)
     return gotDenominator
 }
 
-int arraySizeChar(char number[])
+int charArraySize(char number[])
 {
     int size = 0;
     for (int i = 0; number[i] != '\0'; i++)
@@ -106,7 +106,7 @@ int arraySizeChar(char number[])
     return size;
 }
 
-int arraySizeInt(int arr[])
+int intArraySize(int arr[])
 {
     return sizeof(arr)/sizeof(arr[0]);
 }
@@ -114,9 +114,9 @@ int arraySizeInt(int arr[])
 int[] reverse(int number[])
 {
     int index = 0;
-    int reversedNumber[arraySizeInt(number)];
+    int reversedNumber[intArraySize(number)];
     //starts at the end of the original array and adds the number into the new one
-    for (int i = arraySizeInt(number) - 1; i >= 0; i--)
+    for (int i = intArraySize(number) - 1; i >= 0; i--)
     {
         reversedNumber[index] = number[i];
         index++;
