@@ -99,7 +99,7 @@ bool checkDecimalPoint(const char numString[]){
     int numDecimals = 0;
     // Moves through the c-string until it reaches a null terminator.
     while(numString[counter] != '\0'){
-            if(numString[counter] == 46){
+            if(numString[counter] == '.'){
                 numDecimals++;
             }
             counter++;
@@ -160,46 +160,7 @@ bool checkValidChar(const char numString[]){
     while(numString[counter] != '\0'){
         currentCharacter = numString[counter];
         // These if statements makes sure that the current character is valid 
-         if (currentCharacter == '0') {
-            counter++;
-        }
-        else if (currentCharacter == '1') {
-            counter++;
-        }
-        else if (currentCharacter == '2') {
-            counter++;
-        }
-        else if (currentCharacter == '3') {
-            counter++;
-        }
-        else if (currentCharacter == '4') {
-            counter++;
-        }
-        else if (currentCharacter == '5') {
-            counter++;
-        }
-        else if (currentCharacter == '6') {
-            counter++;
-        }
-        else if (currentCharacter == '7') {
-            counter++;
-        }
-        else if (currentCharacter == '8') {
-            counter++;
-        }
-        else if (currentCharacter == '9') {
-            counter++;
-        }
-        else if (currentCharacter == '.') {
-            counter++;
-        }
-        else if (currentCharacter == '+') {
-            counter++;
-        }
-        else if (currentCharacter == '-') {
-            counter++;
-        }
-        else if(currentCharacter == ' '){
+        if ((currentCharacter >= '0' && currentCharacter <= '9') || currentCharacter == '+' || currentCharacter == '-' || currentCharacter == '.') {
             counter++;
         }
         else {
