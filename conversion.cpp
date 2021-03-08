@@ -6,9 +6,40 @@ using namespace std;
 bool characteristic(const char numString[], int& c)
 {
     int counter = 1;
+    int counter1 = 0;
+    int counter2 = 0;
     int solution = 0;
     int currentInt;
     bool negativeNum = false;
+    bool hitChar = false;
+    bool hitSpace = false;
+    string tempString;
+
+    while (numString[counter1] != '\0') {
+        if (numString[counter1] != ' ') {
+            hitChar = true;
+            tempString += numString[counter1];
+        }
+        if (hitChar == true && numString[counter1] == ' ') {
+            hitSpace = true;
+        }
+        if (hitSpace == true && numString[counter1] != ' ') {
+            return false;
+        }
+        counter1++;
+    }
+    tempString += '\0';
+    counter1 = 0;
+    char* fixedNumString = new char[tempString.length()];
+    while (numString[counter1] != '\0') {
+        if (numString[counter1] != ' ') {
+            fixedNumString[counter2] = numString[counter1];
+            counter2++;
+        }
+        counter1++;
+    }
+    fixedNumString[counter2] = '\0';
+
     // This calls upon CheckValidChar to make sure the c-string only has numbers 0-9, '.', '+', '-', or ' '.
     if(checkValidChar(numString) == false){
         return false;
