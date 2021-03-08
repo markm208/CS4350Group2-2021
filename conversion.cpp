@@ -13,12 +13,12 @@ bool characteristic(const char numString[], int& c)
     bool negativeNum = false;
     bool hitChar = false;
     bool hitSpace = false;
-    string tempString;
+    bool isNum = false;
 
     while (numString[counter1] != '\0') {
         if (numString[counter1] != ' ') {
             hitChar = true;
-            tempString += numString[counter1];
+            counter2++;
         }
         if (hitChar == true && numString[counter1] == ' ') {
             hitSpace = true;
@@ -26,11 +26,18 @@ bool characteristic(const char numString[], int& c)
         if (hitSpace == true && numString[counter1] != ' ') {
             return false;
         }
+        if (numString[counter1] >= '0' && numString[counter1] <= '9') {
+            isNum = true;
+        }
         counter1++;
     }
-    tempString += '\0';
+    if (isNum == false) {
+        return false;
+    }
     counter1 = 0;
-    char* fixedNumString = new char[tempString.length()];
+    counter2++;
+    char* fixedNumString = new char[counter2];
+    counter2 = 0;
     while (numString[counter1] != '\0') {
         if (numString[counter1] != ' ') {
             fixedNumString[counter2] = numString[counter1];
@@ -73,6 +80,8 @@ bool characteristic(const char numString[], int& c)
     if (negativeNum == true) {
         c = c * -1;
     }
+
+    delete [] fixedNumString;
     return true;
 }
 
