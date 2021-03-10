@@ -48,30 +48,34 @@ bool characteristic(const char numString[], int& c)
     fixedNumString[counter2] = '\0';
 
     // This calls upon CheckValidChar to make sure the c-string only has numbers 0-9, '.', '+', '-', or ' '.
-    if(checkValidChar(numString) == false){
+    if(checkValidChar(fixedNumString) == false){
         return false;
     }
     // This calls upon CheckDecimalPoint to make sure the c-string only has one decimal point.
-    if(checkDecimalPoint(numString) == false){
+    if(checkDecimalPoint(fixedNumString) == false){
         return false;
     }
     // This calls upon CheckSigns to make sure there is only one '+' or '-' and that it is at the start of the c-string.
-    if(checkSigns(numString) == false){
+    if(checkSigns(fixedNumString) == false){
         return false;
     }
     // Checks if the number is negative
-    if (numString[0] == '-') {
+    if (fixedNumString[0] == '-') {
         negativeNum = true;
     }
-    else if(numString[0] == '+'){ // This if statement is empty because we don't need to do anything if there is a plus sign but we need to skip over it if there is one present.
+    else if(fixedNumString[0] == '+'){ // This if statement is empty because we don't need to do anything if there is a plus sign but we need to skip over it if there is one present.
+    }
+    else if(fixedNumString[0] == '.'){
+        c = 0;
+        return true;
     }
     else {
-        currentInt = convertToInt(numString[0]);
+        currentInt = convertToInt(fixedNumString[0]);
         solution = (solution * 10) + currentInt;
     }
     // Moves through the c-string until it reaches a '.' or the null terminator.
-    while (numString[counter] != '.' && numString[counter] != '\0') {
-        currentInt = convertToInt(numString[counter]);  // Converts the current character in the c-string to an integer.
+    while (fixedNumString[counter] != '.' && fixedNumString[counter] != '\0') {
+        currentInt = convertToInt(fixedNumString[counter]);  // Converts the current character in the c-string to an integer.
         solution = (solution * 10) + currentInt;        // Formula used to get the correct final integer.
         counter++;
     }
